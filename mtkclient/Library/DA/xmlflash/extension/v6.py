@@ -73,7 +73,8 @@ class XmlFlashExt(metaclass=LogBase):
             self.is_arm64 = True
         else:
             self.is_arm64 = False
-
+        self.archtools = Aarch64Tools(_da2, self.da2address) if self.is_arm64 \
+            else ArmTools(_da2, self.da2address)
         if self.is_arm64:
             at = Aarch64Tools(_da2, self.da2address)
             ref_offset = at.find_string_xref("CMD:SET-HOST-INFO")
@@ -220,6 +221,9 @@ class XmlFlashExt(metaclass=LogBase):
             self.is_arm64 = True
         else:
             self.is_arm64 = False
+
+        self.archtools = Aarch64Tools(self.da2, self.da2address) if self.is_arm64 \
+            else ArmTools(self.da2, self.da2address)
 
         if self.is_arm64:
             daextensions = os.path.join(self.pathconfig.get_payloads_path(), "da_xml_64.bin")
